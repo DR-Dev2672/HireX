@@ -13,9 +13,13 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    phoneNumber: {
+        type: Number,
+        required: true
+    },
     role:{
         type:String,
-        enum:["user","recruiter"],
+        enum:["student","recruiter"],
         required:true,
 
     },
