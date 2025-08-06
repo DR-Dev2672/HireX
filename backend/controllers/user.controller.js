@@ -1,8 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import getDataUri from "../utils/datauri.js";
-import cloudinary from "../utils/cloudinary.js";
+// import getDataUri from "../utils/datauri.js";
+// import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
     try {
@@ -89,10 +89,15 @@ export const login = async (req, res) => {
             role: user.role,
             // profile: user.profile
         }
+        res.cookie("token",token,{
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            httpOnly: true, 
+        })
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+        return res.status(200).json({
             message: `Welcome back ${user.fullName}`,
             user,
+            
             success: true
         })
     } catch (error) {
@@ -111,19 +116,19 @@ export const logout = async (req, res) => {
 }
 export const updateProfile = async (req, res) => {
     try {
-        const { fullName, email, phoneNumber, bio, skills } = req.body;
+        const { fullName, email, phoneNumber } = req.body;
         
-        const file = req.file;
-        // cloudinary ayega idhar
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        // const file = req.file;
+        // // cloudinary ayega idhar
+        // const fileUri = getDataUri(file);
+        // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
 
 
-        let skillsArray;
-        if(skills){
-            skillsArray = skills.split(",");
-        }
+        // let skillsArray;
+        // if(skills){
+        //     skillsArray = skills.split(",");
+        // }
         const userId = req.id; // middleware authentication
         let user = await User.findById(userId);
 
@@ -137,8 +142,8 @@ export const updateProfile = async (req, res) => {
         if(fullName) user.fullName = fullName
         if(email) user.email = email
         if(phoneNumber)  user.phoneNumber = phoneNumber
-        if(bio) user.profile.bio = bio
-        if(skills) user.profile.skills = skillsArray
+        // if(bio) user.profile.bio = bio
+        // if(skills) user.profile.skills = skillsArray
       
         // resume comes later here...
         // if(cloudResponse){
@@ -155,7 +160,7 @@ export const updateProfile = async (req, res) => {
             email: user.email,
             phoneNumber: user.phoneNumber,
             role: user.role,
-            profile: user.profile
+            // profile: user.profile
         }
 
         return res.status(200).json({
