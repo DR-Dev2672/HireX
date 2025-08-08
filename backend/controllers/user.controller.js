@@ -5,8 +5,12 @@ import jwt from "jsonwebtoken";
 // import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
+    // console.log(data);
+    console.log("checking this one")
+    console.log(req.body);
     try {
         const { fullName, email, phoneNumber, password, role } = req.body;
+        
          
         if (!fullName || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
@@ -26,6 +30,7 @@ export const register = async (req, res) => {
             })
         }
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("user is new")
 
         await User.create({
             fullName,
@@ -42,6 +47,7 @@ export const register = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
+        console.log("second check")
     }
 }
 export const login = async (req, res) => {
