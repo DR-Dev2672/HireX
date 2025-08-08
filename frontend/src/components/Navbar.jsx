@@ -14,18 +14,19 @@ import { User } from 'lucide-react';
 function Navbar() {
   return (
     <>
-    <div className="bg-white">
+    <div className="">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-20 ">
         <div>
-          <h1 className="text-2xl font-bold ">
-            JOB<span className="text-red-600">Spa</span>
-          </h1>
+          <Link to="/"><h1 className="text-3xl font-bold ">
+            Hire<span className="text-pink-500">X</span>
+          </h1></Link>
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex items-center font-medium gap-5">
-            <li>Home</li>
-            <li>Jobs</li>
-            <li>Browse</li>
+            <Link to="/"><li>Home</li></Link>
+            <Link to="/jobs"><li>Jobs</li></Link>
+            <Link to="/browse"><li>Browse</li></Link>
+            
           </ul>
           <div className="flex gap-4">
             <Link to="/login">
