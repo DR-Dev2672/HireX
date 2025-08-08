@@ -4,20 +4,28 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from "@/components/ui/button"
 import Navbar from './components/Navbar'
-import { BrowserRouter } from 'react-router-dom'
+import Footer from './components/Footer'
+import HeroSection from './components/HeroSection'
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import Register from './Pages/Register'
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-    <BrowserRouter>
-
-     <Navbar />
-
-     </BrowserRouter>
-    
-    </>
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/" element={
+          <>
+            <Navbar />
+            <HeroSection />
+            <Footer />
+          </>
+        }/>
+      </Routes>
+    </Router>
   )
 }
 
