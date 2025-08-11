@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 // import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
-    // console.log(data);
+    console.log(data,"data in controller");
     console.log("checking this one")
     console.log(req.body);
     try {
