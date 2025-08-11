@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import HeroSection from './components/HeroSection'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import Register from './Pages/Register'
+import Login from './Pages/Login'
 
 
 function App() {
@@ -24,6 +25,14 @@ function App() {
             <Footer />
           </>
         }/>
+        <Route path="/login" element={
+          <>
+            <Navbar />
+            <Login/>
+            <Footer/>
+          </>
+          }
+          />
       </Routes>
     </Router>
   )
