@@ -8,50 +8,40 @@ import Footer from "../components/Footer";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"
 import { Navigate, useNavigate } from "react-router-dom";
-const Register = () => {
-  const [role, setRole] = useState("Student");
-  
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import * as apiClient from "../api-client";
 
+const Register = () => {
+  const queryClient = useQueryClient();
+  
+  
   const { register, handleSubmit } = useForm();
+  const [role, setRole] = useState("Student");
   const changeEventHandler = (e) => {
     console.log(e.target.value);
     setRole(e.target.value);
   };
 
   const navigate=useNavigate();
-  const onSubmit = handleSubmit( async (data) => {
-    
-    try {
-      console.log(data)
-      const res=await fetch("http://localhost:3000/api/user/register",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type": "application/json",
 
-          },
-          credentials:"include",
-          body: JSON.stringify(data),
-        }
-        
-      );
+const { mutateAsync } = useMutation({ mutationFn: apiClient.register, 
+  onSuccess: () => {
+    toast.success("Registration successful");
+    // navigate("/login");
+  },
+  onError: (error) => {
+    toast.error("Registration failed");
+  },
+});
 
-      const body= await res.json();
-      console.log(res)
-      if(res.ok){
-        toast("Registration Successful! Please Login to continue.");
-        // navigate("/login")
-      }
-      return body;
-      
-    } catch (error) {
-     
-      console.log("Error in registration",error);
-      toast.error(error.res.data.message)
-      
-    }
 
-  });
+
+const onSubmit = handleSubmit((data) => {
+
+  console.log(data);
+  mutateAsync(data);
+
+});
 
   return (
     <>
@@ -63,7 +53,7 @@ const Register = () => {
           className=" border-4 rounded-xl   "
           onSubmit={onSubmit}
         >
-          <div className="container w-1/2 mx-auto py-10 flex flex-col gap-5">
+          <div className="container w-1/3 mx-auto py-10 flex flex-col gap-5">
           <h2 className="text-3xl font-bold ">Create an Account</h2>
 
           <label className="text-gray-700 text-sm font-bold flex-1">
